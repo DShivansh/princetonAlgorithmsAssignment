@@ -43,8 +43,8 @@ public class PercolationStats {
     }                 // high endpoint of 95% confidence interval
 
     public static void main(String[] args){
-        int N = Integer.parseInt("2");
-        int T = Integer.parseInt("10000");
+        int N = Integer.parseInt(args[0]);
+        int T = Integer.parseInt(args[1]);
         PercolationStats ps = new PercolationStats(N, T);
 
         String confidence = ps.confidenceLo() + ", " + ps.confidenceHi();
