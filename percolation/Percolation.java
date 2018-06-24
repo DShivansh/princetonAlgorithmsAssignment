@@ -3,10 +3,11 @@ import java.lang.*;
 
 public class Percolation {
     private boolean arr[][];
-    private WeightedQuickUnionUF qt;
-    private int count;
-    private int top = 0;
-    private int bottom;
+    private final WeightedQuickUnionUF qt;
+    private final int count;
+    private final int top = 0;
+    private final int bottom;
+    private int opened;
     public Percolation(int n)  {
         count = n;
         bottom = n*n+1;
@@ -14,7 +15,10 @@ public class Percolation {
         qt = new WeightedQuickUnionUF(n*n+2);
     }              // create n-by-n grid, with all sites blocked
     public void open(int row, int col) {
-        arr[row-1][col-1] = true;
+        if(!isOpen(row,col)){
+            arr[row-1][col-1] = true;
+            opened+=1;
+        }
         if(row == 1){
             qt.union(getSize(row,col), top);
         }
@@ -48,16 +52,8 @@ public class Percolation {
         }
     }  // is site (row, col) full?
     public int numberOfOpenSites()   {
-        int sum = 0;
-        for(boolean[] i: arr){
-            for(boolean j : i){
-                if(j){
-                    sum+=1;
-                }
-            }
-        }
-        return sum;
-    }    // number of open sites
+        return opened;
+    }   // number of open sites
     public boolean percolates(){
         return qt.connected(top,bottom);
     }            // does the system percolate?
